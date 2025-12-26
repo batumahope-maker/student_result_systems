@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2 id="welcome"></h2>
+        <p>Here you can view your results:</p>
+        <table id="resultsTable" border="1" cellpadding="10" style="margin:auto;">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Results will be populated here -->
+            </tbody>
+        </table>
+        <br>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Get logged-in student data
+        const student = JSON.parse(sessionStorage.getItem("currentStudent"));
+
+        if (student) {
+            document.getElementById("welcome").textContent = `Welcome, ${student.name}`;
+
+            const tbody = document.getElementById("resultsTable").querySelector("tbody");
+
+            for (const [subject, score] of Object.entries(student.results)) {
+                const tr = document.createElement("tr");
+                const tdSubject = document.createElement("td");
+                tdSubject.textContent = subject;
+                const tdScore = document.createElement("td");
+                tdScore.textContent = score;
+                tr.appendChild(tdSubject);
+                tr.appendChild(tdScore);
+                tbody.appendChild(tr);
+            }
+        } else {
+            // If no student data, redirect to login
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            sessionStorage.removeItem("currentStudent");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
