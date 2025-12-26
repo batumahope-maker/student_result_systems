@@ -3,31 +3,35 @@ function login() {
   const password = document.getElementById("password").value.trim();
   const message = document.getElementById("message");
 
-  if (regNo === "" || password === "") {
-    message.style.color = "red";
-    message.textContent = "Please fill in all fields";
-    return;
-  }
-
-  // DEMO USERS (Frontend only)
   const users = [
-    { regNo: "STU001", password: "1234" },
-    { regNo: "STU002", password: "5678" },
+    { regNo: "Hope001", password: "1234" },
+    { regNo: "Adjira002", password: "5678" },
     { regNo: "admin", password: "admin" }
   ];
 
-  const validUser = users.find(
-    user => user.regNo === regNo && user.password === password
+  const user = users.find(
+    u => u.regNo === regNo && u.password === password
   );
 
-  if (validUser) {
-    message.style.color = "green";
-    message.textContent = "Login successful!";
-
-    // Optional redirect
-    // window.location.href = "dashboard.html";
+  if (user) {
+    localStorage.setItem("student", regNo);
+    window.location.href = "dashboard.html";
   } else {
     message.style.color = "red";
     message.textContent = "Wrong registration number or password";
   }
 }
+
+function logout() {
+  localStorage.removeItem("student");
+  window.location.href = "index.html";
+}
+
+window.onload = function () {
+  const student = localStorage.getItem("student");
+  const welcome = document.getElementById("welcome");
+
+  if (welcome && student) {
+    welcome.textContent = "Welcome, " + student;
+  }
+};

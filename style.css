@@ -1,21 +1,28 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f2f2f2;
   height: 100vh;
+
+  background-image: url("blue-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+
+ 
+ 
+
 .login-container {
-  background: white;
+  background: rgba(248, 247, 247, 0.377);
   padding: 30px;
-  width: 300px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  text-align: center;
+  border-radius: 10px;
 }
+
 
 input {
   width: 100%;

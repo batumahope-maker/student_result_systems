@@ -1,56 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2 id="welcome"></h2>
-        <p>Here you can view your results:</p>
-        <table id="resultsTable" border="1" cellpadding="10" style="margin:auto;">
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Results will be populated here -->
-            </tbody>
-        </table>
-        <br>
-        <button onclick="logout()">Logout</button>
-    </div>
 
-    <script>
-        // Get logged-in student data
-        const student = JSON.parse(sessionStorage.getItem("currentStudent"));
+  <div class="login-container">
+    <h2>Student Dashboard</h2>
+    <p id="welcome"></p>
 
-        if (student) {
-            document.getElementById("welcome").textContent = `Welcome, ${student.name}`;
+    <table border="1" width="100%" style="margin-top:15px;">
+      <tr>
+        <th>Subject</th>
+        <th>Marks</th>
+        <th>Grade</th>
+      </tr>
+      <tr>
+        <td>Mathematics</td>
+        <td>85</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>English</td>
+        <td>78</td>
+        <td>B</td>
+      </tr>
+      <tr>
+        <td>JavaScript</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr>
+      <tr>
+        <td>Kinyarwanda</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr><tr>
+        <td>CVC</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr><tr>
+        <td>Game in vue</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr><tr>
+        <td>Website</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr><tr>
+        <td>Graphic</td>
+        <td>92</td>
+        <td>A+</td>
+      </tr>
+    </table>
 
-            const tbody = document.getElementById("resultsTable").querySelector("tbody");
+    <br>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-            for (const [subject, score] of Object.entries(student.results)) {
-                const tr = document.createElement("tr");
-                const tdSubject = document.createElement("td");
-                tdSubject.textContent = subject;
-                const tdScore = document.createElement("td");
-                tdScore.textContent = score;
-                tr.appendChild(tdSubject);
-                tr.appendChild(tdScore);
-                tbody.appendChild(tr);
-            }
-        } else {
-            // If no student data, redirect to login
-            window.location.href = "index.html";
-        }
-
-        function logout() {
-            sessionStorage.removeItem("currentStudent");
-            window.location.href = "index.html";
-        }
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
