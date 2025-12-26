@@ -23,14 +23,23 @@ function login() {
     const student = students.find(s => s.registration_number === reg && s.password === pass);
 
     if (student) {
-        // Store student data in sessionStorage to use in dashboard
         sessionStorage.setItem("currentStudent", JSON.stringify(student));
         window.location.href = "dashboard.html";
-
-        
     } else {
         message.textContent = "❌ Wrong registration number or password";
         message.style.color = "red";
+    }
+}
+
+// Forgot Password function
+function recoverPassword() {
+    const reg = prompt("Enter your registration number to recover password:");
+    const student = students.find(s => s.registration_number === reg);
+
+    if (student) {
+        alert(`Your password is: ${student.password}`);
+    } else {
+        alert("❌ Registration number not found");
     }
 }
 

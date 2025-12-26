@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Student Login</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="login-container">
+        <h2>Student Login</h2>
+        <div id="message"></div>
+        <form id="loginForm" onsubmit="login(); return false;">
+            <label for="regNo">Registration Number</label>
+            <input type="text" id="regNo" placeholder="Enter registration number" required>
 
-  <div class="login-container">
-    <h2>Student Login</h2>
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" required>
 
-    <input type="text" id="regNo" placeholder="Registration Number">
-    <input type="password" id="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
 
-    <!-- IMPORTANT: type="button" -->
-    <button type="button" onclick="login()">Login</button>
+        <!-- Forgot Password Link -->
+        <p><a href="#" onclick="recoverPassword()">Forgot Password?</a></p>
+    </div>
 
-    <p id="message"></p>
-  </div>
-
-  <!-- SCRIPT MUST BE LAST -->
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
