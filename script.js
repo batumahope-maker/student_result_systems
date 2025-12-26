@@ -26,7 +26,8 @@ function login() {
         sessionStorage.setItem("currentStudent", JSON.stringify(student));
         window.location.href = "dashboard.html";
     } else {
-        message.textContent = "❌ Wrong registration number or password";
+        message.textContent = "❌ Wrong registration number ";
+        message.textContent = "❌ Wrong password";
         message.style.color = "red";
     }
 }
