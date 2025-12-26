@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Login</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Student Login</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Student Login</h2>
-        <input type="text" id="regNumber" placeholder="Registration Number" required><br>
-        <input type="password" id="password" placeholder="Password" required><br>
-        <button onclick="login()">Login</button>
-        <p id="message"></p>
-    </div>
-    <script src="script.js"></script>
+
+  <div class="login-container">
+    <h2>Student Login</h2>
+
+    <input type="text" id="regNo" placeholder="Registration Number">
+    <input type="password" id="password" placeholder="Password">
+
+    <!-- IMPORTANT: type="button" -->
+    <button type="button" onclick="login()">Login</button>
+
+    <p id="message"></p>
+  </div>
+
+  <!-- SCRIPT MUST BE LAST -->
+  <script src="script.js"></script>
 </body>
 </html>

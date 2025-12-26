@@ -1,54 +1,33 @@
 function login() {
-    const reg = document.getElementById("regNumber").value;
-    const pass = document.getElementById("password").value;
+  const regNo = document.getElementById("regNo").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const message = document.getElementById("message");
 
-    // Fake student credentials
-    const student = {
-        registration_number: "STU001",
-        password: "1234"
-    };
+  if (regNo === "" || password === "") {
+    message.style.color = "red";
+    message.textContent = "Please fill in all fields";
+    return;
+  }
 
-    const message = document.getElementById("message");
+  // DEMO USERS (Frontend only)
+  const users = [
+    { regNo: "STU001", password: "1234" },
+    { regNo: "STU002", password: "5678" },
+    { regNo: "admin", password: "admin" }
+  ];
 
-    if (reg === student.registration_number && pass === student.password) {
-        // Redirect to dashboard
-        window.location.href = "dashboard.html";
-    } else {
-        message.textContent = "❌ Wrong registration number or password";
-        message.style.color = "red";
-    }
-}
-// Fake student database
-const students = [
-    {
-        registration_number: "STU001",
-        password: "1234",
-        name: "Alice Uwase",
-        results: { Math: 85, English: 90, Website: 78, JavaScript: 80, CVC: 95, Graphic: 89, }
-    },
-    {
-        registration_number: "STU002",
-        password: "5678",
-        name: "Bob Kamau",
-        results: { Math: 75, English: 88, Website: 82,  JavaScript: 80, CVC: 95, Graphic: 89, }
-    }
-];
+  const validUser = users.find(
+    user => user.regNo === regNo && user.password === password
+  );
 
-// Login function
-function login() {
-    const reg = document.getElementById("regNumber").value;
-    const pass = document.getElementById("password").value;
+  if (validUser) {
+    message.style.color = "green";
+    message.textContent = "Login successful!";
 
-    const message = document.getElementById("message");
-
-    const student = students.find(s => s.registration_number === reg && s.password === pass);
-
-    if (student) {
-        // Store student data in sessionStorage to use in dashboard
-        sessionStorage.setItem("currentStudent", JSON.stringify(student));
-        window.location.href = "dashboard.html";
-    } else {
-        message.textContent = "❌ Wrong registration number or password";
-        message.style.color = "red";
-    }
+    // Optional redirect
+    // window.location.href = "dashboard.html";
+  } else {
+    message.style.color = "red";
+    message.textContent = "Wrong registration number or password";
+  }
 }
