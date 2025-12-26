@@ -1,37 +1,51 @@
+// Fake student database
+const students = [
+    {
+        registration_number: "STU001",
+        password: "1234",
+        name: "Alice Uwase",
+        results: { Math: 85, English: 90, Science: 78 }
+    },
+    {
+        registration_number: "STU002",
+        password: "5678",
+        name: "Bob Kamau",
+        results: { Math: 75, English: 88, Science: 82 }
+    }
+];
+
+// Login function
 function login() {
-  const regNo = document.getElementById("regNo").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const message = document.getElementById("message");
+    const reg = document.getElementById("regNo").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
 
-  const users = [
-    { regNo: "Hope001", password: "1234" },
-    { regNo: "Adjira002", password: "5678" },
-    { regNo: "admin", password: "admin" }
-  ];
+    const student = students.find(s => s.registration_number === reg && s.password === pass);
 
-  const user = users.find(
-    u => u.regNo === regNo && u.password === password
-  );
+    if (student) {
+        // Store student data in sessionStorage to use in dashboard
+        sessionStorage.setItem("currentStudent", JSON.stringify(student));
+        window.location.href = "dashboard.html";
 
-  if (user) {
-    localStorage.setItem("student", regNo);
-    window.location.href = "dashboard.html";
-  } else {
-    message.style.color = "red";
-    message.textContent = "Wrong registration number or password";
-  }
+        
+    } else {
+        message.textContent = "❌ Wrong registration number or password";
+        message.style.color = "red";
+    }
 }
 
+// Logout function
 function logout() {
-  localStorage.removeItem("student");
-  window.location.href = "index.html";
+    sessionStorage.removeItem("currentStudent");
+    window.location.href = "index.html";
 }
 
+// Dashboard welcome message
 window.onload = function () {
-  const student = localStorage.getItem("student");
-  const welcome = document.getElementById("welcome");
+    const student = JSON.parse(sessionStorage.getItem("currentStudent"));
+    const welcome = document.getElementById("welcome");
 
-  if (welcome && student) {
-    welcome.textContent = "Welcome, " + student;
-  }
+    if (welcome && student) {
+        welcome.textContent = "Welcome, " + student.name;
+    }
 };
