@@ -25,8 +25,25 @@
   Forgot both registration number and password?<br>
   Please contact the school administration.
 </p>
+<!-- Hamburger Menu -->
+<div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-    </div>
+<div id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">×</span>
+    <h3>School Information</h3>
+    <ul>
+        <li onclick="showInfo('Announcements')">School Announcements</li>
+        <li onclick="showInfo('BestPerformers')">Best Performing Students</li>
+        <li onclick="showInfo('Schedules')">School Schedules</li>
+        <li onclick="showInfo('Events')">School Events</li>
+        <li onclick="showInfo('Teachers')">List of School Teachers</li>
+        <li onclick="showInfo('Headmaster')">Contact of Headmaster</li>
+        <li onclick="showInfo('Trades')">School Trades / Departments</li>
+        <li onclick="showInfo('AttendanceTeachers')">Attendance List of Teachers</li>
+        <li onclick="showInfo('AttendanceStudents')">Attendance List of Students</li>
+        <li onclick="showInfo('Rules')">School Rules and Regulations</li>
+    </ul>
+</div>
 
     <script src="script.js"></script>
 </body>

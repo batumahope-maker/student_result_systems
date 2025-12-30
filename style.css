@@ -12,11 +12,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-
- 
- 
-
 .login-container {
   background: rgba(248, 247, 247, 0.377);
   padding: 30px;
@@ -54,4 +49,92 @@ button:hover {
     text-align: center;
     margin-top: 10px;
 }
+/* Hamburger icon on the RIGHT */
+.menu-icon {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+    z-index: 1000;
+}
+
+/* Side menu hidden by default */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px; /* hidden */
+    width: 300px;
+    height: 100%;
+    background: #0d6efd;
+    color: white;
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+}
+
+/* Close button */
+.close-btn {
+    font-size: 26px;
+    cursor: pointer;
+    float: right;
+}
+
+/* Menu content */
+.side-menu h3 {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu li {
+    margin: 12px 0;
+    font-size: 14px;
+}
+.side-menu li {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.side-menu strong {
+    display: block;
+    margin-top: 15px;
+    font-size: 15px;
+}
+/* Content area */
+.content-area {
+    margin: 80px 20px 20px 20px; /* leave space for menu icon */
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    min-height: 300px;
+}
+
+/* Make side-menu scrollable if too long */
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+    max-height: 80%;
+    overflow-y: auto;
+}
+table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #1e90ff;
+    color: white;
+}
+
+td, th {
+    text-align: center;
+}
+
 

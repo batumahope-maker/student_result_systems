@@ -6,6 +6,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Content Area -->
+<div id="contentArea">
+    <h3>Welcome to Student Result System</h3>
+    <p>Select an item from the menu</p>
+</div>
+
 
   <div class="login-container">
     <h2>Student Dashboard</h2>
@@ -54,6 +60,11 @@
         <td>A+</td>
       </tr>
     </table>
+    <ul>
+    <li onclick="showInfo('AttendanceStudents')">Student Attendance</li>
+    <li onclick="showInfo('AttendanceTeachers')">Teacher Attendance</li>
+</ul>
+
 
     <br>
     <button onclick="logout()">Logout</button>
