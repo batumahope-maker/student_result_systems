@@ -5,71 +5,60 @@
   <title>Student Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Content Area -->
-<div id="contentArea">
-    <h3>Welcome to Student Result System</h3>
-    <p>Select an item from the menu</p>
+<body class="dashboard-page">
+
+<!-- Hamburger Icon -->
+<div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+<!-- Side Menu -->
+ <div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="toggleMenu()">×</span>
+  <ul>
+        <li><a href="announcements.html">School Announcements</a></li>
+        <li><a href="best_performers.html">Best Performing Students</a></li>
+        <li><a href="schedules.html">School Schedules</a></li>
+        <li><a href="events.html">School Events</a></li>
+        <li><a href="teachers.html">School Teachers</a></li>
+        <li><a href="headmaster.html">Headmaster Contact</a></li>
+        <li><a href="trades.html">School Trades / Departments</a></li>
+        <li><a href="attendance_teachers.html">Teacher Attendance</a></li>
+        <li><a href="attendance_students.html">Student Attendance</a></li>
+        <li><a href="rules.html">School Rules</a></li>
+    </ul>
+  <a href="index.html">Logout</a>
 </div>
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
+  <!-- Dashboard Title -->
+  <h1 class="dashboard-title">Student Dashboard</h1>
 
-  <div class="login-container">
-    <h2>Student Dashboard</h2>
-    <p id="welcome"></p>
+  <!-- Welcome Message -->
+  <p id="welcome">Welcome, Alice Uwase</p>
 
-    <table border="1" width="100%" style="margin-top:15px;">
-      <tr>
-        <th>Subject</th>
-        <th>Marks</th>
-        <th>Grade</th>
-      </tr>
-      <tr>
-        <td>Mathematics</td>
-        <td>85</td>
-        <td>A</td>
-      </tr>
-      <tr>
-        <td>English</td>
-        <td>78</td>
-        <td>B</td>
-      </tr>
-      <tr>
-        <td>JavaScript</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr>
-      <tr>
-        <td>Kinyarwanda</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr><tr>
-        <td>CVC</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr><tr>
-        <td>Game in vue</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr><tr>
-        <td>Website</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr><tr>
-        <td>Graphic</td>
-        <td>92</td>
-        <td>A+</td>
-      </tr>
-    </table>
-    <ul>
-    <li onclick="showInfo('AttendanceStudents')">Student Attendance</li>
-    <li onclick="showInfo('AttendanceTeachers')">Teacher Attendance</li>
-</ul>
+  <!-- Result Table -->
+  <table class="results-table">
+    <tr>
+      <th>Subject</th>
+      <th>Marks</th>
+      <th>Grade</th>
+    </tr>
+    <tr><td>Mathematics</td><td>85</td><td>A</td></tr>
+    <tr><td>English</td><td>78</td><td>B</td></tr>
+    <tr><td>JavaScript</td><td>92</td><td>A+</td></tr>
+    <tr><td>Kinyarwanda</td><td>92</td><td>A+</td></tr>
+    <tr><td>CVC</td><td>92</td><td>A+</td></tr>
+    <tr><td>Game in Vue</td><td>92</td><td>A+</td></tr>
+    <tr><td>Website</td><td>92</td><td>A+</td></tr>
+    <tr><td>Graphic</td><td>92</td><td>A+</td></tr>
+  </table>
 
-
-    <br>
-    <button onclick="logout()">Logout</button>
+  <!-- Logout Button at the bottom -->
+  <div class="logout-container">
+    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
   </div>
 
-  <script src="script.js"></script>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

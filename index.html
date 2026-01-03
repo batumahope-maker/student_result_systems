@@ -6,44 +6,48 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Student Login</h2>
-        <div id="message"></div>
-        <form id="loginForm" onsubmit="login(); return false;">
-            <label for="regNo">Registration Number</label>
-            <input type="text" id="regNo" placeholder="Enter registration number" required>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter password" required>
+    <!-- Hamburger Menu -->
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-            <button type="submit">Login</button>
-        </form>
+    <nav id="sideMenu" class="side-menu">
+        <span class="close-btn" onclick="toggleMenu()">×</span>
+        <ul>
+            <li><a href="announcements.html">School Announcements</a></li>
+            <li><a href="best_performers.html">Best Performing Students</a></li>
+            <li><a href="schedules.html">School Schedules</a></li>
+            <li><a href="events.html">School Events</a></li>
+            <li><a href="teachers.html">School Teachers</a></li>
+            <li><a href="headmaster.html">Headmaster Contact</a></li>
+            <li><a href="trades.html">School Trades / Departments</a></li>
+            <li><a href="attendance_teachers.html">Teacher Attendance</a></li>
+            <li><a href="attendance_students.html">Student Attendance</a></li>
+            <li><a href="rules.html">School Rules</a></li>
+        </ul>
+    </nav>
 
-        <!-- Forgot Password Link -->
-        <p><a href="#" onclick="recoverPassword()">Forgot Password?</a></p>
-        <p class="help-text">
-  Forgot both registration number and password?<br>
-  Please contact the school administration.
-</p>
-<!-- Hamburger Menu -->
-<div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <!-- Main Page Content -->
+    <div class="main-content">
+        <div class="login-container">
+            <h2>Student Login</h2>
+            <div id="message"></div>
+            <form id="loginForm" onsubmit="login(); return false;">
+                <label for="regNo">Registration Number</label>
+                <input type="text" id="regNo" placeholder="Enter registration number" required>
 
-<div id="sideMenu" class="side-menu">
-    <span class="close-btn" onclick="toggleMenu()">×</span>
-    <h3>School Information</h3>
-    <ul>
-        <li onclick="showInfo('Announcements')">School Announcements</li>
-        <li onclick="showInfo('BestPerformers')">Best Performing Students</li>
-        <li onclick="showInfo('Schedules')">School Schedules</li>
-        <li onclick="showInfo('Events')">School Events</li>
-        <li onclick="showInfo('Teachers')">List of School Teachers</li>
-        <li onclick="showInfo('Headmaster')">Contact of Headmaster</li>
-        <li onclick="showInfo('Trades')">School Trades / Departments</li>
-        <li onclick="showInfo('AttendanceTeachers')">Attendance List of Teachers</li>
-        <li onclick="showInfo('AttendanceStudents')">Attendance List of Students</li>
-        <li onclick="showInfo('Rules')">School Rules and Regulations</li>
-    </ul>
-</div>
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p><a href="#" onclick="recoverPassword()">Forgot Password?</a></p>
+            <p class="help-text">
+                Forgot both registration number and password?<br>
+                Please contact the school administration.
+            </p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
