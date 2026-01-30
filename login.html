@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-login">
+
+<div class="container">
+    <h2>Student Login</h2>
+
+    <input type="file" id="excelFile" accept=".xlsx,.xls"><br><br>
+
+    <input type="text" id="code" placeholder="Student Code"><br><br>
+    <input type="text" id="name" placeholder="Student Name"><br><br>
+
+    <button onclick="login()">Login</button>
+
+    <p id="error" style="color:red;"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

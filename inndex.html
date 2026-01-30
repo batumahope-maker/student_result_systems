@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPortal - School Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            -webkit-bg-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #06b6d4;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99,102,241,0.3), transparent);
+            top: -200px;
+            right: -200px;
+            filter: blur(100px);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #06b6d4;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #06b6d4;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            background: #1e293b;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .role-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            color: #94a3b8;
+            transition: all 0.3s;
+        }
+
+        .role-tab.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #06b6d4;
+        }
+
+        .error { color: #ef4444; text-align: center; margin-top: 10px; font-size: 0.9rem; }
+        .success { color: #10b981; text-align: center; margin-top: 10px; font-size: 0.9rem; }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dash-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .dash-header {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .badge {
+            background: rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(99,102,241,0.3), transparent);
+            color: white;
+            border-left: 3px solid #6366f1;
+        }
+
+        .content-area {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 35px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-badge.present, .status-badge.yes { background: rgba(16,185,129,0.2); color: #10b981; }
+        .status-badge.absent, .status-badge.no { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+        .card {
+            background: rgba(0,0,0,0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .profile-section {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .profile-field {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .profile-field label {
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            padding: 60px 20px 30px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #94a3b8;
+            line-height: 2;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .profile-avatar {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">🎓 EduPortal</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#" class="login-btn" onclick="showLoginModal()">Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Welcome to EduPortal</h1>
+                <p>Your complete school management solution. Track attendance, manage grades, connect with teachers, and stay updated with announcements - all in one place.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="showLoginModal()">Get Started</button>
+                    <button class="btn-secondary" onclick="showRegisterModal()">Register</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div style="width:100%;height:400px;background:linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.3));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:6rem;">📚</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Our Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Grade Management</h3>
+                <p>Track student performance with comprehensive grade management and detailed report cards.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Attendance Tracking</h3>
+                <p>Monitor student and teacher attendance in real-time with automated tracking systems.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3>Teacher Portal</h3>
+                <p>Empower teachers with tools to manage classes, upload marks, and communicate with students.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📢</div>
+                <h3>Announcements</h3>
+                <p>Stay informed with instant notifications about school events, holidays, and important updates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Access the portal from any device - desktop, tablet, or smartphone.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>Your data is protected with industry-standard security measures and encryption.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to EduPortal</h2>
+                <button class="close-modal" onclick="closeLoginModal()">×</button>
+            </div>
+            <div class="role-tabs">
+                <div class="role-tab active" onclick="selectRole('student')">Student</div>
+                <div class="role-tab" onclick="selectRole('teacher')">Teacher</div>
+                <div class="role-tab" onclick="selectRole('admin')">Admin</div>
+            </div>
+            <div class="input-group">
+                <label>Email / Student Code</label>
+                <input type="text" id="username" placeholder="Enter your credentials">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+            <button class="btn-primary" onclick="login()" style="width:100%;">Login</button>
+            <div class="error" id="errorMessage"></div>
+            <p style="text-align:center;margin-top:20px;color:#94a3b8;">
+                <small>Student: alice@student.edu / password123<br>
+                Teacher: teacher@school.edu / admin123<br>
+                Admin: admin@school.edu / admin123</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Student Registration</h2>
+                <button class="close-modal" onclick="closeRegisterModal()">×</button>
+            </div>
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="regName">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="regEmail">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="regPassword">
+            </div>
+            <div class="input-group">
+                <label>Level</label>
+                <select id="regLevel">
+                    <option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option>
+                    <option value="L4">L4</option><option value="L5">L5</option><option value="L6">L6</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Category/Trade</label>
+                <select id="regCategory">
+                    <option value="SWD">SWD</option><option value="Tourism">Tourism</option>
+                    <option value="Electronics">Electronics</option><option value="Automobile">Automobile</option>
+                    <option value="Mechanic">Mechanic</option><option value="FBO">FBO</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="registerStudent()" style="width:100%;">Register</button>
+            <div class="error" id="regError"></div>
+            <div class="success" id="regSuccess"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="logo">🎓 EduPortal</div>
+                <div class="user-info">
+                    <div class="profile-pic" id="headerProfilePic"></div>
+                    <span id="currentUserName"></span>
+                    <span class="badge" id="currentUserRole"></span>
+                    <button class="btn-primary" onclick="logout()" style="padding:8px 20px;">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dash-container">
+            <div class="dash-grid">
+                <div class="sidebar" id="navigation"></div>
+                <div class="content-area" id="mainContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🎓 EduPortal</h3>
+                <p>Your complete school management solution for modern education.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="#home">Home</a></p>
+                <p><a href="#features">Features</a></p>
+                <p><a href="#about">About Us</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@eduportal.com</p>
+                <p>Phone: +250 788 635 040</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p>Facebook | Twitter | Instagram</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 EduPortal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem('eduportal_data')) || {
+            students: [
+                {code: 'STU001', name: 'Alice Uwase', email: 'alice@student.edu', password: 'password123',
+                 level: 'L5', category: 'SWD', hasProfile: true,
+                 subjects: [{name: 'Math', marks: 85}, {name: 'English', marks: 78}, {name: 'Science', marks: 90}],
+                 attendance: 'Present', lastLogin: null},
+                {code: 'STU002', name: 'Bob Kamau', email: 'bob@student.edu', password: 'password123',
+                 level: 'L4', category: 'Tourism', hasProfile: false,
+                 subjects: [{name: 'Math', marks: 70}, {name: 'English', marks: 65}, {name: 'Science', marks: 72}],
+                 attendance: 'Absent', lastLogin: null},
+                {code: 'STU003', name: 'Charlie Mwangi', email: 'charlie@student.edu', password: 'password123',
+                 level: 'L3', category: 'Electronics', hasProfile: true,
+                 subjects: [{name: 'Math', marks: 88}, {name: 'English', marks: 82}, {name: 'Science', marks: 86}],
+                 attendance: 'Present', lastLogin: '2026-01-28T10:30:00Z'}
+            ],
+            teachers: [
+                {name: 'Mr. Jean', subject: 'Mathematics', email: 'teacher@school.edu', password: 'admin123', status: 'Present'},
+                {name: 'Mrs. Grace', subject: 'English', email: 'grace@school.edu', password: 'admin123', status: 'Present'},
+                {name: 'Mr. David', subject: 'Science', email: 'david@school.edu', password: 'admin123', status: 'Absent'}
+            ],
+            admin: {email: 'admin@school.edu', password: 'admin123'},
+            announcements: [
+                {title: 'School Reopening', content: 'School reopens Monday at 8:00 AM'},
+                {title: 'Sports Day', content: 'Sports Day this Friday'}
+            ],
+            events: [{name: 'Sports Day', date: 'Friday'}, {name: 'Science Fair', date: '15 March'}],
+            rules: ['Be punctual', 'Respect teachers', 'Maintain cleanliness', 'No cheating', 'Wear uniform']
+        };
+
+        let currentRole = 'student', currentUser = null;
+
+        function saveData() { localStorage.setItem('eduportal_data', JSON.stringify(data)); }
+        
+        function showLoginModal() { document.getElementById('loginModal').classList.add('active'); }
+        function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); }
+        function showRegisterModal() { closeLoginModal(); document.getElementById('registerModal').classList.add('active'); }
+        function closeRegisterModal() { document.getElementById('registerModal').classList.remove('active'); }
+
+        function selectRole(role, el) {
+    currentRole = role;
+    document.querySelectorAll('.role-tab').forEach(tab =>
+        tab.classList.remove('active')
+    );
+    el.classList.add('active');
+}
+
+        function registerStudent() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const level = document.getElementById('regLevel').value;
+            const category = document.getElementById('regCategory').value;
+            const error = document.getElementById('regError');
+            const success = document.getElementById('regSuccess');
+
+            error.textContent = ''; success.textContent = '';
+            if (!name || !email || !password) { error.textContent = 'Please fill all fields'; return; }
+            if (data.students.find(s => s.email === email)) { error.textContent = 'Email already exists'; return; }
+
+            const newCode = 'STU' + String(data.students.length + 1).padStart(3, '0');
+            data.students.push({
+                code: newCode, name, email, password, level, category, hasProfile: true,
+                subjects: [{name: 'Math', marks: 0}, {name: 'English', marks: 0}, {name: 'Science', marks: 0}],
+                attendance: 'Present', lastLogin: null
+            });
+            saveData();
+            success.textContent = `Registration successful! Your student code is: ${newCode}`;
+            setTimeout(() => { closeRegisterModal(); showLoginModal(); }, 2000);
+        }
+
+        function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const error = document.getElementById('errorMessage');
+    error.textContent = '';
+
+    if (!username || !password) {
+        error.textContent = 'Please fill all fields';
+        return;
+    }
+
+    // STUDENT LOGIN
+    if (currentRole === 'student') {
+        const student = data.students.find(s =>
+            (s.code.toLowerCase() === username.toLowerCase() ||
+             s.email.toLowerCase() === username.toLowerCase()) &&
+            s.password === password
+        );
+
+        if (student) {
+            student.lastLogin = new Date().toISOString();
+            saveData();
+            currentUser = student;
+            showDashboard();
+            return;
+        }
+        error.textContent = 'Invalid credentials';
+    }
+
+    // TEACHER LOGIN
+    else if (currentRole === 'teacher') {
+        const teacher = data.teachers.find(t =>
+            t.email.toLowerCase() === username.toLowerCase() &&
+            t.password === password
+        );
+
+        if (teacher) {
+            currentUser = teacher;
+            showDashboard();
+            return;
+        }
+        error.textContent = 'Invalid credentials';
+    }
+
+    // ADMIN LOGIN
+    else if (currentRole === 'admin') {
+        if (
+            data.admin.email.toLowerCase() === username.toLowerCase() &&
+            data.admin.password === password
+        ) {
+            currentUser = { name: 'Administrator', email: data.admin.email };
+            showDashboard();
+            return;
+        }
+        error.textContent = 'Invalid credentials';
+    }
+}
+
+function showDashboard() {
+    closeLoginModal();
+    document.querySelector('.hero').style.display = 'none';
+    document.querySelector('.features').style.display = 'none';
+    document.getElementById('footer').style.display = 'none';
+
+    document.getElementById('dashboard').classList.add('active');
+
+    document.getElementById('currentUserName').textContent =
+        currentUser.name || currentUser.email;
+
+    document.getElementById('currentUserRole').textContent =
+        currentRole.toUpperCase();
+
+    document.getElementById('headerProfilePic').textContent =
+        (currentUser.name || 'A')[0].toUpperCase();
+
+    buildSidebar();
+    loadPage('home');
+}
+
+function logout() {
+    currentUser = null;
+    currentRole = 'student';
+    document.getElementById('dashboard').classList.remove('active');
+    document.querySelector('.hero').style.display = 'flex';
+    document.querySelector('.features').style.display = 'block';
+    document.getElementById('footer').style.display = 'block';
+}
+function buildSidebar() {
+    const nav = document.getElementById('navigation');
+    nav.innerHTML = '';
+
+    let items = [];
+
+    if (currentRole === 'student') {
+        items = [
+            { id: 'home', label: '🏠 Dashboard' },
+            { id: 'grades', label: '📊 Grades' },
+            { id: 'attendance', label: '✅ Attendance' },
+            { id: 'profile', label: '👤 Profile' }
+        ];
+    } else if (currentRole === 'teacher') {
+        items = [
+            { id: 'home', label: '🏠 Dashboard' },
+            { id: 'students', label: '👨‍🎓 Students' },
+            { id: 'attendance', label: '📋 Attendance' }
+        ];
+    } else {
+        items = [
+            { id: 'home', label: '🏠 Dashboard' },
+            { id: 'students', label: '👨‍🎓 Students' },
+            { id: 'teachers', label: '👨‍🏫 Teachers' },
+            { id: 'announcements', label: '📢 Announcements' }
+        ];
+    }
+
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'nav-item';
+        div.textContent = item.label;
+        div.onclick = () => loadPage(item.id);
+        nav.appendChild(div);
+    });
+}
+function loadPage(page) {
+    const content = document.getElementById('mainContent');
+    content.innerHTML = '';
+
+    if (page === 'home') {
+        content.innerHTML = `
+            <h2>Welcome 👋</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="value">${data.students.length}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Teachers</h3>
+                    <div class="value">${data.teachers.length}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    if (page === 'grades' && currentRole === 'student') {
+        content.innerHTML = `
+            <h2>My Grades</h2>
+            <table>
+                <tr><th>Subject</th><th>Marks</th></tr>
+                ${currentUser.subjects.map(s =>
+                    `<tr><td>${s.name}</td><td>${s.marks}</td></tr>`
+                ).join('')}
+            </table>
+        `;
+    }
+
+    if (page === 'attendance') {
+        content.innerHTML = `
+            <h2>Attendance Status</h2>
+            <span class="status-badge ${currentUser.attendance === 'Present' ? 'present' : 'absent'}">
+                ${currentUser.attendance || 'N/A'}
+            </span>
+        `;
+    }
+
+    if (page === 'profile' && currentRole === 'student') {
+        content.innerHTML = `
+            <h2>My Profile</h2>
+            <div class="profile-field"><label>Name</label><span>${currentUser.name}</span></div>
+            <div class="profile-field"><label>Code</label><span>${currentUser.code}</span></div>
+            <div class="profile-field"><label>Level</label><span>${currentUser.level}</span></div>
+            <div class="profile-field"><label>Category</label><span>${currentUser.category}</span></div>
+        `;
+    }
+}
+function selectRole(role) {
+    currentRole = role;
+    document.querySelectorAll('.role-tab').forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active'); // ❌ event is NOT defined
+}

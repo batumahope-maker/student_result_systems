@@ -2,53 +2,1796 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Login</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPortal - School Management System</title>
+    
+    <!-- 1. Professional Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 2. Professional Icons (Phosphor) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- Core Styles & Reset --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Refined Color Palette */
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --danger: #ef4444;
+            --success: #10b981;
+            
+            --bg-dark: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            /* Spacing & Radius */
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Pro Font */
+            background: linear-gradient(135deg, #0f172a 0%, #0f172a 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- Login Section --- */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at top right, rgba(99, 102,241, 0.15), transparent 40%);
+        }
+
+        .login-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 48px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Decorative shine */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .logo { text-align: center; margin-bottom: 32px; }
+        .logo h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            background: rgba(0,0,0,0.2);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .role-btn.active {
+            background: var(--bg-card);
+            color: white;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+        }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        
+        .btn-sm {
+            width: auto;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 8px;
+        }
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .btn-danger:hover { background: var(--danger); color: white; }
+        
+        .btn-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .btn-success:hover { background: var(--success); color: white; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-light);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: white; }
+
+        .error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 12px; text-align: center; font-weight: 500; }
+
+        .login-hints {
+            margin-top: 24px;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- Dashboard Layout --- */
+        .dashboard { display: none; min-height: 100vh; }
+        .dashboard.active { display: block; }
+
+        .header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info { display: flex; align-items: center; gap: 16px; }
+        .role-badge {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .logout-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn:hover { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); }
+
+        .main-layout { display: flex; }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+        }
+        .nav-item {
+            padding: 12px 24px;
+            margin: 2px 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .nav-item i { font-size: 1.2rem; color: var(--text-muted); transition: 0.2s; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.04); color: white; }
+        .nav-item:hover i { color: white; }
+        
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: white;
+            border-left: 3px solid var(--primary);
+        }
+        .nav-item.active i { color: var(--primary); }
+
+        /* --- Content Area --- */
+        .content { flex: 1; padding: 32px; max-width: 1400px; overflow-y: auto; height: calc(100vh - 70px); }
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .page-header h2 { font-size: 1.75rem; font-weight: 700; color: white; letter-spacing: -0.5px; }
+
+        .card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* --- Stats Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card h3 { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 2.25rem; font-weight: 700; color: white; line-height: 1; }
+        
+        /* Visual Progress Bar for Stats */
+        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 8px; }
+        .progress-fill { height: 100%; border-radius: 10px; background: var(--primary); }
+
+        /* --- Tables --- */
+        .table-responsive { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; background: var(--bg-card); }
+        th, td { padding: 16px; text-align: left; }
+        th { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        td { border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-light); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        /* Make Name Clickable */
+        .clickable-name { color: var(--accent); font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .clickable-name:hover { text-decoration: underline; }
+
+        /* --- Badges & Utilities --- */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .badge.present { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .badge.absent { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .hidden { display: none !important; }
+
+        /* --- Profile Specific Styles --- */
+        .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .profile-detail { margin-bottom: 16px; }
+        .profile-detail label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+        .profile-detail .val { color: white; font-size: 1rem; font-weight: 500; }
+        .subject-list-item { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .subject-list-item .grade { font-weight: 700; color: var(--success); }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        .modal {
+            background: #1e293b;
+            padding: 32px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.96);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.open .modal { transform: scale(1); }
+        .modal h3 { margin-bottom: 24px; color: white; font-size: 1.25rem; font-weight: 600; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; }
+
+        /* --- Toast Notifications --- */
+        #toast-container {
+            position: fixed; bottom: 24px; right: 24px; z-index: 2000;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .toast {
+            background: #1e293b;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; align-items: center; gap: 12px;
+            min-width: 300px;
+        }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* --- CSV Controls --- */
+        .csv-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 16px; overflow-x: auto; flex-direction: row; }
+            .nav-item { padding: 8px 16px; font-size: 0.85rem; }
+            .content { padding: 20px; height: auto; }
+            .header { padding: 0 20px; height: 60px; }
+            .login-card { padding: 32px 24px; }
+            .csv-controls { flex-direction: column; align-items: flex-start; }
+            .profile-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Hamburger Menu -->
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
-    <nav id="sideMenu" class="side-menu">
-        <span class="close-btn" onclick="toggleMenu()">×</span>
-        <ul>
-            <li><a href="announcements.html">School Announcements</a></li>
-            <li><a href="best_performers.html">Best Performing Students</a></li>
-            <li><a href="schedules.html">School Schedules</a></li>
-            <li><a href="events.html">School Events</a></li>
-            <li><a href="teachers.html">School Teachers</a></li>
-            <li><a href="headmaster.html">Headmaster Contact</a></li>
-            <li><a href="trades.html">School Trades / Departments</a></li>
-            <li><a href="attendance_teachers.html">Teacher Attendance</a></li>
-            <li><a href="attendance_students.html">Student Attendance</a></li>
-            <li><a href="rules.html">School Rules</a></li>
-        </ul>
-    </nav>
+    <!-- Authentication Container (Login & Signup) -->
+    <div class="auth-container" id="authContainer">
+        
+        <!-- Login View -->
+        <div class="login-card" id="loginView">
+            <div class="logo">
+                <h1><i class="ph ph-graduation-cap" style="font-size: 32px; color: var(--accent);"></i> EduPortal</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">School Management System</p>
+            </div>
 
-    <!-- Main Page Content -->
-    <div class="main-content">
-        <div class="login-container">
-            <h2>Student Login</h2>
-            <div id="message"></div>
-            <form id="loginForm" onsubmit="login(); return false;">
-                <label for="regNo">Registration Number</label>
-                <input type="text" id="regNo" placeholder="Enter registration number" required>
+            <div class="role-selector">
+                <button class="role-btn active" onclick="selectRole('student', event)"><i class="ph ph-student"></i> Student</button>
+                <button class="role-btn" onclick="selectRole('teacher', event)"><i class="ph ph-chalkboard-teacher"></i> Teacher</button>
+                <button class="role-btn" onclick="selectRole('admin', event)"><i class="ph ph-shield-check"></i> Admin</button>
+            </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter password" required>
+            <div class="form-group">
+                <label>Email / Student Code</label>
+                <input type="text" id="loginEmail" placeholder="Enter your email or student code" onkeydown="checkEnter(event)">
+            </div>
 
-                <button type="submit">Login</button>
-            </form>
+            <div class="form-group">
+                <label>Password / Name</label>
+                <input type="password" id="loginPassword" placeholder="Enter password or your name" onkeydown="checkEnter(event)">
+            </div>
 
-            <p><a href="#" onclick="recoverPassword()">Forgot Password?</a></p>
-            <p class="help-text">
-                Forgot both registration number and password?<br>
-                Please contact the school administration.
-            </p>
+            <button class="btn" onclick="handleLogin()">Sign In</button>
+
+            <div class="auth-toggle">
+                Don't have an account? <span onclick="showSignup()">Create Account</span>
+            </div>
+            
+            <div class="error-msg" id="errorMsg"></div>
+
+            <div style="margin-top: 24px; padding: 16px; background: rgba(15, 23, 42, 0.5); border-radius: 12px; font-size: 0.8rem; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.05);">
+                <div style="margin-bottom: 4px;"><i class="ph ph-user"></i> <strong>Student:</strong> STU001 / Alice Uwase</div>
+                <div style="margin-bottom: 4px;"><i class="ph ph-chalkboard-teacher"></i> <strong>Teacher:</strong> teacher@school.edu / admin123</div>
+                <div><i class="ph ph-shield-check"></i> <strong>Admin:</strong> admin@school.edu / admin123</div>
+            </div>
+        </div>
+
+        <!-- Signup View -->
+        <div class="login-card hidden" id="signupView">
+            <div class="logo">
+                <h1><i class="ph ph-user-plus" style="font-size: 32px; color: var(--success);"></i> Create Account</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Join the school system</p>
+            </div>
+
+            <div class="role-selector">
+                <button class="role-btn active" onclick="selectSignupRole('student', event)"><i class="ph ph-student"></i> Student</button>
+                <button class="role-btn" onclick="selectSignupRole('teacher', event)"><i class="ph ph-chalkboard-teacher"></i> Teacher</button>
+                <!-- Admins usually can't self-register for security -->
+            </div>
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="signupName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group" id="groupCode">
+                <label>Student Code</label>
+                <input type="text" id="signupCode" placeholder="e.g. STU004">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="signupEmail" placeholder="name@school.edu">
+            </div>
+
+            <div class="form-group" id="groupSubject">
+                <label>Subject (For Teachers)</label>
+                <input type="text" id="signupSubject" placeholder="e.g. Mathematics">
+            </div>
+
+            <div class="form-group">
+                <label>Level / Trade (For Students)</label>
+                <input type="text" id="signupLevel" placeholder="e.g. L5">
+                <select id="signupTrade" style="margin-top: 8px;">
+                    <option value="">Select Trade</option>
+                    <option value="SWD">SWD</option>
+                    <option value="Tourism">Tourism</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Automobile">Automobile</option>
+                    <option value="Mechanic">Mechanic</option>
+                    <option value="FBO">FBO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password">
+            </div>
+
+            <button class="btn" onclick="handleSignup()">Sign Up</button>
+
+            <div class="auth-toggle">
+                Already have an account? <span onclick="showLogin()">Login</span>
+            </div>
+            
+            <div class="error-msg" id="signupErrorMsg"></div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Dashboard Wrapper -->
+    <div class="dashboard" id="mainDashboard">
+        <div class="header">
+            <h2><i class="ph ph-graduation-cap" style="color: var(--accent)"></i> EduPortal</h2>
+            <div class="user-info">
+                <span id="userName" style="font-weight: 600;">Welcome</span>
+                <span class="role-badge" id="userRole">Student</span>
+                <button class="logout-btn" onclick="handleLogout()"><i class="ph ph-sign-out"></i> Logout</button>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <div class="sidebar" id="sidebar"></div>
+            <div class="content" id="content"></div>
+        </div>
+    </div>
+
+    <!-- Generic Modal for Forms -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle">Title</h3>
+            <div id="modalBody"></div>
+            <div class="modal-actions">
+                <button class="btn btn-danger btn-sm" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-success btn-sm" id="modalSaveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Profile Modal -->
+    <div class="modal-overlay" id="profileModalOverlay">
+        <div class="modal">
+            <div class="profile-header">
+                <h2 id="profileName">Student Name</h2>
+                <span class="badge present">Present</span>
+            </div>
+            <div class="profile-grid">
+                <div class="card profile-detail">
+                    <h3 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9rem;">Academic Info</h3>
+                    <div class="profile-detail"><label>Code</label><div class="val" id="profileCode">STU001</div>
+                    <div class="profile-detail"><label>Level</label><div class="val" id="profileLevel">L5</div>
+                    <div class="profile-detail"><label>Trade</label><div class="val" id="profileTrade">SWD</div>
+                    <div class="profile-detail"><label>Email</label><div class="val" id="profileEmail">alice@student.edu</div>
+                </div>
+                <div class="card profile-detail">
+                    <h3 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9rem;">Contact Details</h3>
+                    <div class="profile-detail"><label>Phone</label><div class="val" id="profilePhone">+250 788 123 456</div>
+                    <div class="profile-detail"><label>Address</label><div class="val" id="profileAddress">Kigali, Rwanda</div>
+                    <div class="profile-detail"><label>Guardian</label><div class="val" id="profileGuardian">Mr. Uwase</div>
+                </div>
+                <div class="card profile-detail" style="grid-column: span 2;">
+                    <h3 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9rem;">Performance</h3>
+                    <div class="profile-detail"><label>Overall Average</label><div class="val" id="profileAvg" style="font-size: 1.5rem;">84%</div>
+                    <div class="progress-track"><div class="progress-fill" id="profileProgress" style="width: 84%"></div></div>
+                </div>
+                <div class="card profile-detail" style="grid-column: span 2;">
+                    <h3 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9rem;">Subjects</h3>
+                    <div id="profileSubjects" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-danger btn-sm" onclick="closeProfileModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data & State ---
+        const appData = {
+            students: [
+                { 
+                    code: 'STU001', name: 'Alice Uwase', email: 'alice@student.edu',
+                    level: 'L5', trade: 'SWD',
+                    phone: '+250 788 123 456', address: 'Kigali, Rwanda', guardian: 'Mr. Uwase',
+                    subjects: [
+                        { name: 'Mathematics', marks: 85, grade: 'A' },
+                        { name: 'English', marks: 78, grade: 'B' },
+                        { name: 'Science', marks: 90, grade: 'A' }
+                    ],
+                    attendance: 'Present'
+                },
+                { 
+                    code: 'STU002', name: 'Bob Kamau', email: 'bob@student.edu',
+                    level: 'L4', trade: 'Tourism',
+                    phone: '+250 788 999 888', address: 'Kigali, Rwanda', guardian: 'Mrs. Kamau',
+                    subjects: [
+                        { name: 'Mathematics', marks: 70, grade: 'B' },
+                        { name: 'English', marks: 65, grade: 'C' },
+                        { name: 'Science', marks: 72, grade: 'B' }
+                    ],
+                    attendance: 'Absent'
+                },
+                { 
+                    code: 'STU003', name: 'Charlie Mwangi', email: 'charlie@student.edu',
+                    level: 'L3', trade: 'Electronics',
+                    phone: '+250 730 111 222', address: 'Remera, Rwanda', guardian: 'Mr. Mwangi',
+                    subjects: [
+                        { name: 'Mathematics', marks: 88, grade: 'A' },
+                        { name: 'English', marks: 82, grade: 'A' },
+                        { name: 'Science', marks: 86, grade: 'A' }
+                    ],
+                    attendance: 'Present'
+                }
+            ],
+            teachers: [
+                { name: 'Mr. Jean', subject: 'Mathematics', email: 'teacher@school.edu', password: 'admin123', attendance: 'Present', performance: { weekly: 92, monthly: 88, yearly: 90 }, salary: 50000, salaryDiff: 2000 },
+                { name: 'Mrs. Grace', subject: 'English', email: 'grace@school.edu', password: 'admin123', attendance: 'Present', performance: { weekly: 85, monthly: 86, yearly: 87 }, salary: 45000, salaryDiff: -500 },
+                { name: 'Mr. David', subject: 'Science', email: 'david@school.edu', password: 'admin123', attendance: 'Absent', performance: { weekly: 78, monthly: 80, yearly: 75 }, salary: 48000, salaryDiff: 0 },
+                { name: 'Ms. Linda', subject: 'History', email: 'linda@school.edu', password: 'admin123', attendance: 'Present', performance: { weekly: 95, monthly: 94, yearly: 96 }, salary: 52000, salaryDiff: 3000 }
+            ],
+            admin: { email: 'admin@school.edu', password: 'admin123' },
+            announcements: [
+                { title: 'School Reopening', content: 'The school will reopen on Monday. Students should report at 8:00 AM.', date: '2026-01-20' },
+                { title: 'Sports Day', content: 'Sports Day scheduled for Friday', date: '2026-01-24' }
+            ],
+            events: [
+                { name: 'Sports Day', date: 'Friday' },
+                { name: 'Science Fair', date: '15 March' },
+                { name: 'Cultural Day', date: '20 April' }
+            ],
+            trades: ['SWD', 'Tourism', 'Electronics', 'Automobile', 'Mechanic', 'FBO'],
+            rules: [
+                'Be punctual',
+                'Respect teachers and classmates',
+                'Maintain cleanliness',
+                'No cheating during exams',
+                'Wear school uniform'
+            ],
+            schedule: 'Monday – Friday: 8:00 AM – 3:00 PM',
+            headmaster: {
+                name: 'Father Polycarpe NZAYISENGA',
+                email: 'essjt2007@yahoo.fr',
+                phone: '+250 788 635 040'
+            }
+        };
+
+        let currentUser = null;
+        let currentRole = null;
+        let selectedRole = 'student';
+        let signupRole = 'student';
+
+        // --- Notifications ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? '<i class="ph ph-check-circle" style="font-size:20px"></i>' : '<i class="ph ph-warning-circle" style="font-size:20px"></i>';
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- Auth View Switching ---
+        function showSignup() {
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('signupView').classList.remove('hidden');
+            document.getElementById('signupView').style.display = 'block';
+            document.getElementById('errorMsg').textContent = '';
+            document.getElementById('signupErrorMsg').textContent = '';
+        }
+
+        function showLogin() {
+            document.getElementById('signupView').style.display = 'none';
+            document.getElementById('signupView').classList.add('hidden');
+            document.getElementById('loginView').style.display = 'block';
+            document.getElementById('errorMsg').textContent = '';
+            document.getElementById('signupErrorMsg').textContent = '';
+        }
+
+        // --- Login Logic ---
+        function selectRole(role, event) {
+            if(event) event.stopPropagation();
+            selectedRole = role;
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('errorMsg').textContent = '';
+        }
+
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                if(document.getElementById('loginView').style.display !== 'none') {
+                    handleLogin();
+                } else {
+                    handleSignup();
+                }
+            }
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (!email || !password) {
+                errorMsg.textContent = 'Please fill in all fields';
+                return;
+            }
+
+            if (selectedRole === 'student') {
+                const student = appData.students.find(s => (s.code === email || s.email === email) && s.name.toLowerCase() === password.toLowerCase());
+                if (student) {
+                    currentUser = student; currentRole = 'student'; showDashboard();
+                } else {
+                    errorMsg.textContent = 'Invalid credentials (Try Name or Code as Password if old account)';
+                }
+            } else if (selectedRole === 'teacher') {
+                const teacher = appData.teachers.find(t => t.email === email && t.password === password);
+                if (teacher) {
+                    currentUser = teacher; currentRole = 'teacher'; showDashboard();
+                } else {
+                    errorMsg.textContent = 'Invalid teacher credentials';
+                }
+            } else if (selectedRole === 'admin') {
+                if (appData.admin.email === email && appData.admin.password === password) {
+                    currentUser = { name: 'Administrator' }; currentRole = 'admin'; showDashboard();
+                } else {
+                    errorMsg.textContent = 'Invalid admin credentials';
+                }
+            }
+        }
+
+        // --- Signup Logic ---
+        function selectSignupRole(role, event) {
+            if(event) event.stopPropagation();
+            signupRole = role;
+            document.querySelectorAll('#signupView .role-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            const codeGroup = document.getElementById('groupCode');
+            const subjectGroup = document.getElementById('groupSubject');
+            
+            if(role === 'student') {
+                codeGroup.style.display = 'block';
+                subjectGroup.style.display = 'none';
+            } else {
+                codeGroup.style.display = 'none';
+                subjectGroup.style.display = 'block';
+            }
+        }
+
+        function handleSignup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const errorMsg = document.getElementById('signupErrorMsg');
+
+            if (!name || !email || !password) {
+                errorMsg.textContent = 'Name, Email, and Password are required';
+                return;
+            }
+
+            if (signupRole === 'student') {
+                const code = document.getElementById('signupCode').value.trim();
+                const level = document.getElementById('signupLevel').value.trim();
+                const trade = document.getElementById('signupTrade').value;
+
+                if(!code) { errorMsg.textContent = 'Student Code is required'; return; }
+
+                const exists = appData.students.find(s => s.code === code || s.email === email);
+                if(exists) {
+                    errorMsg.textContent = 'A student with this Code or Email already exists.';
+                    return;
+                }
+
+                const newStudent = {
+                    code, name, email, password, level, trade,
+                    phone: '+250 000 000 000', address: 'City, Country', guardian: 'Parent Name',
+                    subjects: [], attendance: 'Present'
+                };
+                appData.students.push(newStudent);
+                
+                currentUser = newStudent;
+                currentRole = 'student';
+                selectedRole = 'student'; // Set this so login state matches
+                showToast("Account created successfully!");
+                showDashboard();
+
+            } else if (signupRole === 'teacher') {
+                const subject = document.getElementById('signupSubject').value.trim();
+
+                if(!subject) { errorMsg.textContent = 'Subject is required'; return; }
+
+                const exists = appData.teachers.find(t => t.email === email);
+                if(exists) {
+                    errorMsg.textContent = 'A teacher with this Email already exists.';
+                    return;
+                }
+
+                const newTeacher = {
+                    name, email, password, subject, attendance: 'Present',
+                    performance: { weekly: 0, monthly: 0, yearly: 0 },
+                    salary: 0, salaryDiff: 0
+                };
+                appData.teachers.push(newTeacher);
+
+                currentUser = newTeacher;
+                currentRole = 'teacher';
+                selectedRole = 'teacher';
+                showToast("Account created successfully!");
+                showDashboard();
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainDashboard').classList.add('active');
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
+            renderNavigation();
+            renderContent();
+        }
+
+        function handleLogout() {
+            currentUser = null; currentRole = null;
+            document.getElementById('mainDashboard').classList.remove('active');
+            document.getElementById('authContainer').style.display = 'flex';
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupCode').value = '';
+        }
+
+        // --- Navigation ---
+        function renderNavigation() {
+            const sidebar = document.getElementById('sidebar');
+            let navItems = [];
+
+            if (currentRole === 'student') {
+                navItems = [
+                    { id: 'dashboard', label: 'Dashboard', icon: 'ph-squares-four' },
+                    { id: 'results', label: 'My Results', icon: 'ph-exam' },
+                    { id: 'announcements', label: 'Announcements', icon: 'ph-megaphone' },
+                    { id: 'schedule', label: 'Schedule', icon: 'ph-calendar' },
+                    { id: 'events', label: 'Events', icon: 'ph-calendar-check' },
+                    { id: 'teachers', label: 'Teachers', icon: 'ph-chalkboard-teacher' },
+                    { id: 'rules', label: 'School Rules', icon: 'ph-list-checks' },
+                    { id: 'contact', label: 'Contact', icon: 'ph-phone' }
+                ];
+            } else if (currentRole === 'teacher') {
+                navItems = [
+                    { id: 'dashboard', label: 'Dashboard', icon: 'ph-squares-four' },
+                    { id: 'students', label: 'Students', icon: 'ph-users-three' },
+                    { id: 'attendance', label: 'Attendance', icon: 'ph-check-square-offset' },
+                    { id: 'marks-excel', label: 'Marks (Excel/CSV)', icon: 'ph-microsoft-excel-logo' },
+                    { id: 'announcements', label: 'Announcements', icon: 'ph-megaphone' },
+                    { id: 'schedule', label: 'Schedule', icon: 'ph-calendar' },
+                    { id: 'events', label: 'Events', icon: 'ph-calendar-check' },
+                    { id: 'rules', label: 'School Rules', icon: 'ph-list-checks' }
+                ];
+            } else { // Admin
+                navItems = [
+                    { id: 'dashboard', label: 'Dashboard', icon: 'ph-squares-four' },
+                    { id: 'manage-students', label: 'Manage Students', icon: 'ph-student' },
+                    { id: 'manage-teachers', label: 'Manage Teachers', icon: 'ph-chalkboard-teacher' },
+                    { id: 'manage-marks', label: 'Marks (Excel/CSV)', icon: 'ph-microsoft-excel-logo' },
+                    { id: 'manage-announcements', label: 'Announcements', icon: 'ph-megaphone' },
+                    { id: 'schedule', label: 'Schedule', icon: 'ph-calendar' },
+                    { id: 'events', label: 'Events', icon: 'ph-calendar-check' },
+                    { id: 'rules', label: 'School Rules', icon: 'ph-list-checks' }
+                ];
+            }
+
+            sidebar.innerHTML = navItems.map((item, i) => 
+                `<div class="nav-item ${i === 0 ? 'active' : ''}" onclick="switchSection('${item.id}', this)">
+                    <i class="ph ${item.icon}"></i> ${item.label}
+                </div>`
+            ).join('');
+        }
+
+        function switchSection(sectionId, navElement) {
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                navElement.classList.add('active');
+            }
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function renderContent() {
+            const content = document.getElementById('content');
+            if (currentRole === 'student') {
+                renderStudentContent(content);
+            } else if (currentRole === 'teacher') {
+                renderTeacherContent(content);
+            } else {
+                renderAdminContent(content);
+            }
+        }
+
+        // --- Student View ---
+        function renderStudentContent(container) {
+            const total = currentUser.subjects.reduce((sum, s) => sum + s.marks, 0);
+            const avg = currentUser.subjects.length ? (total / currentUser.subjects.length).toFixed(1) : 0;
+
+            let html = `
+                <div class="section active" id="dashboard">
+                    <div class="page-header"><h2>Welcome, ${currentUser.name}!</h2></div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Student Code</h3><i class="ph ph-identification-card" style="color:var(--accent)"></i>
+                            </div>
+                            <div class="value">${currentUser.code}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Level</h3><i class="ph ph-student" style="color:var(--primary)"></i>
+                            </div>
+                            <div class="value">${currentUser.level}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Trade</h3><i class="ph ph-briefcase" style="color:var(--secondary)"></i>
+                            </div>
+                            <div class="value">${currentUser.trade}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Average</h3><i class="ph ph-trend-up" style="color:var(--success)"></i>
+                            </div>
+                            <div class="value">${avg}%</div>
+                            <div class="progress-track"><div class="progress-fill" style="width: ${avg}%"></div></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px; display:flex; align-items:center; gap:8px;"><i class="ph ph-bell"></i> Recent Announcements</h3>
+                        ${appData.announcements.map(a => `
+                            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--primary);">
+                                <strong>${a.title}</strong>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">${a.content}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="section" id="results">
+                    <div class="page-header"><h2>My Results</h2></div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Subject</th><th>Marks</th><th>Grade</th></tr></thead>
+                                <tbody>
+                                    ${currentUser.subjects.map(s => `
+                                        <tr>
+                                            <td>${s.name}</td>
+                                            <td>${s.marks}</td>
+                                            <td><strong style="color: var(--success)">${s.grade}</strong></td>
+                                        </tr>
+                                    `).join('')}
+                                    <tr style="background: rgba(99,102,241,0.1);">
+                                        <td><strong>Total</strong></td>
+                                        <td><strong>${total}</strong></td>
+                                        <td><strong>Avg: ${avg}%</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="announcements">
+                    <div class="page-header"><h2>School Announcements</h2></div>
+                    ${getAnnouncementHTML()}
+                </div>
+
+                <div class="section" id="schedule">
+                    <div class="page-header"><h2>School Schedule</h2></div>
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px; display:flex; align-items:center; gap:8px;"><i class="ph ph-clock" style="color:var(--accent)"></i> Regular Schedule</h3>
+                        <p style="font-size: 1.1rem; color: var(--text-light);">${appData.schedule}</p>
+                    </div>
+                </div>
+
+                <div class="section" id="events">
+                    <div class="page-header"><h2>Upcoming Events</h2></div>
+                    ${getEventHTML()}
+                </div>
+
+                <div class="section" id="teachers">
+                    <div class="page-header"><h2>School Teachers</h2></div>
+                    ${getTeachersHTML()}
+                </div>
+
+                <div class="section" id="rules">
+                    <div class="page-header"><h2>School Rules</h2></div>
+                    ${getRulesHTML()}
+                </div>
+
+                <div class="section" id="contact">
+                    <div class="page-header"><h2>Contact Information</h2></div>
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px; display:flex; align-items:center; gap:8px;"><i class="ph ph-user" style="color:var(--primary)"></i> Headmaster</h3>
+                        <p style="margin-bottom: 12px;"><strong>Name:</strong> ${appData.headmaster.name}</p>
+                        <p style="margin-bottom: 12px;"><strong>Email:</strong> ${appData.headmaster.email}</p>
+                        <p><strong>Phone:</strong> ${appData.headmaster.phone}</p>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // --- Teacher View ---
+        function renderTeacherContent(container) {
+            let html = `
+                <div class="section active" id="dashboard">
+                    <div class="page-header"><h2>Teacher Dashboard</h2></div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Total Students</h3><i class="ph ph-users-three"></i>
+                            </div>
+                            <div class="value">${appData.students.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Present Today</h3><i class="ph ph-check-circle" style="color:var(--success)"></i>
+                            </div>
+                            <div class="value">${appData.students.filter(s => s.attendance === 'Present').length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Absent Today</h3><i class="ph ph-x-circle" style="color:var(--danger)"></i>
+                            </div>
+                            <div class="value">${appData.students.filter(s => s.attendance === 'Absent').length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Your Subject</h3><i class="ph ph-book-open" style="color:var(--accent)"></i>
+                            </div>
+                            <div class="value" style="font-size: 1.5rem;">${currentUser.subject}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="students">
+                    <div class="page-header"><h2>All Students</h2></div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Name</th><th>Level</th><th>Trade</th><th>Attendance</th></tr></thead>
+                                <tbody>
+                                    ${appData.students.map(s => `
+                                        <tr>
+                                            <!-- Make Name Clickable for Profile View -->
+                                            <td class="clickable-name" onclick="openStudentProfile('${s.name}')">${s.name}</td>
+                                            <td>${s.level}</td>
+                                            <td>${s.trade}</td>
+                                            <td><span class="badge ${s.attendance === 'Present' ? 'present' : 'absent'}">${s.attendance}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="attendance">
+                    <div class="page-header"><h2>Attendance Management</h2></div>
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">Student Attendance</h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Code</th><th>Name</th><th>Status</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    ${appData.students.map(s => `
+                                        <tr>
+                                            <td>${s.code}</td>
+                                            <td>${s.name}</td>
+                                            <td><span class="badge ${s.attendance === 'Present' ? 'present' : 'absent'}">${s.attendance}</span></td>
+                                            <td>
+                                                <button class="btn-sm ${s.attendance === 'Present' ? 'btn-danger' : 'btn-success'}" onclick="toggleAttendance('${s.code}')">
+                                                    <i class="ph ${s.attendance === 'Present' ? 'ph-x' : 'ph-check'}"></i> Mark ${s.attendance === 'Present' ? 'Absent' : 'Present'}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="marks-excel">
+                    <div class="page-header"><h2>Marks Management</h2></div>
+                    <div class="card">
+                        <div class="csv-controls">
+                            <div style="flex:1">
+                                <strong style="display:flex; align-items:center; gap:8px;"><i class="ph ph-file-csv" style="color:var(--success)"></i> Bulk Edit with Excel</strong>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">Download CSV, open in Excel, edit, and upload below.</p>
+                                <div style="display:flex; gap:10px;">
+                                    <button class="btn btn-outline btn-sm" onclick="downloadMarksCSV()"><i class="ph ph-download-simple"></i> Download CSV</button>
+                                    <input type="file" id="csvUpload" accept=".csv" style="margin:0;" onchange="uploadMarksCSV(this)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Code</th><th>Name</th><th>Subject</th><th>Marks</th><th>Grade</th></tr></thead>
+                                <tbody>
+                                    ${getAllMarksRows()}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="announcements">
+                    <div class="page-header"><h2>Announcements</h2></div>
+                    ${getAnnouncementHTML()}
+                </div>
+                
+                <div class="section" id="schedule">
+                    <div class="page-header"><h2>School Schedule</h2></div>
+                    <div class="card"><p style="font-size: 1.1rem;">${appData.schedule}</p></div>
+                </div>
+
+                <div class="section" id="events">
+                    <div class="page-header"><h2>Upcoming Events</h2></div>
+                    ${getEventHTML()}
+                </div>
+
+                <div class="section" id="rules">
+                    <div class="page-header"><h2>School Rules</h2></div>
+                    ${getRulesHTML()}
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // --- Admin View ---
+        function renderAdminContent(container) {
+            let html = `
+                <div class="section active" id="dashboard">
+                    <div class="page-header"><h2>Admin Dashboard</h2></div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Total Students</h3><i class="ph ph-users-three"></i>
+                            </div>
+                            <div class="value">${appData.students.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Total Teachers</h3><i class="ph ph-chalkboard-teacher"></i>
+                            </div>
+                            <div class="value">${appData.teachers.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h3>Active Announcements</h3><i class="ph ph-megaphone"></i>
+                            </div>
+                            <div class="value">${appData.announcements.length}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="manage-students">
+                    <div class="page-header">
+                        <h2>Manage Students</h2>
+                        <button class="btn btn-success btn-sm" onclick="openAddStudentModal()"><i class="ph ph-plus"></i> Add Student</button>
+                    </div>
+                    <div class="card table-responsive">
+                        <table>
+                            <!-- Changed "Code" to "Name" -->
+                            <thead><tr><th>Name</th><th>Code</th><th>Level</th><th>Trade</th><th>Email</th><th>Actions</th></tr></thead>
+                            <tbody id="adminStudentTableBody">
+                                ${getStudentRows()}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="manage-teachers">
+                    <div class="page-header">
+                        <h2>Manage Teachers</h2>
+                        <button class="btn btn-success btn-sm" onclick="openAddTeacherModal()"><i class="ph ph-plus"></i> Add Teacher</button>
+                    </div>
+                    <div class="card table-responsive">
+                        <table>
+                            <thead><tr><th>Name</th><th>Subject</th><th>Email</th><th>Actions</th></tr></thead>
+                            <tbody id="adminTeacherTableBody">
+                                ${getTeacherRows()}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="manage-marks">
+                    <div class="page-header"><h2>Marks Management</h2><button class="btn btn-success btn-sm" onclick="openAddSubjectToStudentModal()"><i class="ph ph-plus"></i> Add Subject</button></div>
+                    <div class="card">
+                        <div class="csv-controls">
+                            <div style="flex:1">
+                                <strong style="display:flex; align-items:center; gap:8px;"><i class="ph ph-file-csv" style="color:var(--success)"></i> Bulk Edit with Excel</strong>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">Download CSV, open in Excel, edit, and upload below.</p>
+                                <div style="display:flex; gap:10px;">
+                                    <button class="btn btn-outline btn-sm" onclick="downloadMarksCSV()"><i class="ph ph-download-simple"></i> Download CSV</button>
+                                    <input type="file" id="csvUpload" accept=".csv" style="margin:0;" onchange="uploadMarksCSV(this)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Code</th><th>Name</th><th>Subject</th><th>Marks</th><th>Grade</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    ${getAllAdminMarksRows()}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="manage-announcements">
+                    <div class="page-header">
+                        <h2>Manage Announcements</h2>
+                        <button class="btn btn-success btn-sm" onclick="openAddAnnouncementModal()"><i class="ph ph-plus"></i> Post New</button>
+                    </div>
+                    <div class="card">
+                        ${appData.announcements.map((a, index) => `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--primary);">
+                                <div>
+                                    <strong style="display:block; margin-bottom:4px;">${a.title}</strong>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom:4px;">${a.content}</p>
+                                    <small style="color: var(--accent); font-size:0.8rem;"><i class="ph ph-calendar-blank"></i> ${a.date}</small>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline btn-sm" style="margin-right:5px" onclick="openEditAnnouncement(${index})"><i class="ph ph-pencil-simple"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement(${index})"><i class="ph ph-trash"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="section" id="schedule">
+                    <div class="page-header">
+                        <h2>School Schedule</h2>
+                        <button class="btn btn-outline btn-sm" onclick="openEditScheduleModal()"><i class="ph ph-pencil-simple"></i> Edit Schedule</button>
+                    </div>
+                    <div class="card"><p style="font-size: 1.1rem;">${appData.schedule}</p></div>
+                </div>
+
+                <div class="section" id="events">
+                    <div class="page-header">
+                        <h2>Upcoming Events</h2>
+                        <button class="btn btn-success btn-sm" onclick="openAddEventModal()"><i class="ph ph-plus"></i> Add Event</button>
+                    </div>
+                    <div class="card">
+                        ${appData.events.map((e, index) => `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 10px;">
+                                <div>
+                                    <strong style="display:block; margin-bottom:4px;">${e.name}</strong>
+                                    <small style="color: var(--accent); font-size:0.9rem;"><i class="ph ph-calendar-blank"></i> ${e.date}</small>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline btn-sm" style="margin-right:5px" onclick="openEditEvent(${index})"><i class="ph ph-pencil-simple"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteEvent(${index})"><i class="ph ph-trash"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="section" id="rules">
+                    <div class="page-header">
+                        <h2>School Rules</h2>
+                        <button class="btn btn-success btn-sm" onclick="openAddRuleModal()"><i class="ph ph-plus"></i> Add Rule</button>
+                    </div>
+                    <div class="card">
+                         ${appData.rules.map((r, index) => `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <span>${r}</span>
+                                <div>
+                                    <button class="btn btn-outline btn-sm" style="margin-right:5px" onclick="openEditRule(${index})"><i class="ph ph-pencil-simple"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteRule(${index})"><i class="ph ph-trash"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // --- Helper HTML Generators ---
+        function getStudentRows() {
+            if (appData.students.length === 0) return '<tr><td colspan="6">No students found.</td></tr>';
+            // Display Name instead of Code primarily, and make it clickable
+            return appData.students.map((s, i) => `
+                <tr>
+                    <!-- Name is first column and clickable -->
+                    <td class="clickable-name" onclick="openStudentProfile('${s.name}')">${s.name}</td>
+                    <td>${s.code}</td>
+                    <td>${s.level}</td>
+                    <td>${s.trade}</td>
+                    <td>${s.email}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" style="margin-right:5px" onclick="openEditStudent('${s.code}')"><i class="ph ph-pencil-simple"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.code}')"><i class="ph ph-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getTeacherRows() {
+            if (appData.teachers.length === 0) return '<tr><td colspan="4">No teachers found.</td></tr>';
+            return appData.teachers.map((t, i) => `
+                <tr>
+                    <td>${t.name}</td>
+                    <td>${t.subject}</td>
+                    <td>${t.email}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" style="margin-right:5px" onclick="openEditTeacherDetails('${t.email}')"><i class="ph ph-pencil-simple"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${t.email}')"><i class="ph ph-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getAllMarksRows() {
+            let rows = '';
+            appData.students.forEach(student => { student.subjects.forEach(sub => { rows += `<tr><td>${student.code}</td><td>${student.name}</td><td>${sub.name}</td><td>${sub.marks}</td><td><strong style="color: var(--success)">${sub.grade}</strong></td></tr>`; }); });
+            return rows || '<tr><td colspan="5">No marks available.</td></tr>';
+        }
+
+        function getAllAdminMarksRows() {
+            let rows = '';
+            appData.students.forEach((student, sIndex) => { 
+                student.subjects.forEach((sub, subIndex) => { 
+                    rows += `<tr>
+                        <td>${student.code}</td>
+                        <!-- Name is clickable for Profile View -->
+                        <td class="clickable-name" onclick="openStudentProfile('${student.name}')">${student.name}</td>
+                        <td>${sub.name}</td>
+                        <td>${sub.marks}</td>
+                        <td><strong style="color: var(--success)">${sub.grade}</strong></td>
+                        <td><button class="btn btn-outline btn-sm" onclick="openEditMark('${student.code}', '${sub.name}')"><i class="ph ph-pencil-simple"></i></button></td>
+                    </tr>`; 
+                }); 
+            });
+            return rows || '<tr><td colspan="6">No marks available.</td></tr>';
+        }
+
+        function getAnnouncementHTML() { return appData.announcements.map(a => `<div class="card"><h3 style="display:flex; align-items:center; gap:8px; margin-bottom:12px;"><i class="ph ph-megaphone" style="color:var(--primary)"></i> ${a.title}</h3><p style="color: var(--text-muted); margin-top: 10px;">${a.content}</p><small style="color: var(--text-muted); display:block; margin-top:12px;"><i class="ph ph-calendar-blank"></i> Posted: ${a.date}</small></div>`).join(''); }
+        function getEventHTML() { return appData.events.map(e => `<div class="card"><h3 style="display:flex; align-items:center; gap:8px; margin-bottom:12px;"><i class="ph ph-calendar-check" style="color:var(--accent)"></i> ${e.name}</h3><p style="color: var(--text-muted); font-size: 1.1rem;">${e.date}</p></div>`).join(''); }
+        function getTeachersHTML() { return `<div class="card"><div class="table-responsive"><table><thead><tr><th>Name</th><th>Subject</th><th>Status</th></tr></thead><tbody>${appData.teachers.map(t => `<tr><td>${t.name}</td><td>${t.subject}</td><td><span class="badge ${t.attendance === 'Present' ? 'present' : 'absent'}">${t.attendance}</span></td></tr>`).join('')}</tbody></table></div>`; }
+        function getRulesHTML() { return `<div class="card"><ul style="list-style: none;">${appData.rules.map(r => `<li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display:flex; gap:10px;"><i class="ph ph-check-circle" style="color:var(--accent)"></i> ${r}</li>`).join('')}</ul></div>`; }
+
+        // --- Student Profile Logic ---
+        function openStudentProfile(studentName) {
+            // Find student by name (assuming unique names for this prototype)
+            const student = appData.students.find(s => s.name === studentName);
+            if(!student) return;
+
+            document.getElementById('profileName').textContent = student.name;
+            document.getElementById('profileCode').textContent = student.code;
+            document.getElementById('profileLevel').textContent = student.level;
+            documentProfileInfo(student, 'profileEmail', student.email);
+            documentProfileInfo(student, 'profilePhone', student.phone);
+            documentProfileInfo(student, 'profileAddress', student.address);
+            documentProfileInfo(student, 'profileGuardian', student.guardian);
+            
+            const total = student.subjects.reduce((sum, s) => sum + s.marks, 0);
+            const avg = student.subjects.length ? (total / student.subjects.length).toFixed(1) : 0;
+            document.getElementById('profileAvg').textContent = avg + '%';
+            document.getElementById('profileProgress').style.width = avg + '%';
+
+            const subjectsContainer = document.getElementById('profileSubjects');
+            subjectsContainer.innerHTML = student.subjects.map(sub => 
+                `<div class="subject-list-item">
+                    <span>${sub.name} (${sub.marks})</span>
+                    <span class="grade">${sub.grade}</span>
+                </div>`
+            ).join('');
+
+            document.getElementById('profileModalOverlay').classList.add('open');
+        }
+
+        function documentProfileInfo(student, elementId, value) {
+            document.getElementById(elementId).textContent = value || 'N/A';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModalOverlay').classList.remove('open');
+        }
+
+        // --- CSV Logic ---
+        function downloadMarksCSV() {
+            let csvContent = "data:text/csv;charset=utf-8," + "StudentCode,StudentName,Subject,Marks,Grade\n";
+            appData.students.forEach(student => { student.subjects.forEach(sub => { csvContent += `${student.code},${student.name},${sub.name},${sub.marks},${sub.grade}\n`; }); });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "student_marks_template.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function uploadMarksCSV(input) {
+            const file = input.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result; const rows = text.split("\n");
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i].trim(); if (!row) continue;
+                    const cols = row.split(","); if (cols.length < 5) continue;
+                    const [code, name, subject, marks, grade] = cols;
+                    const student = appData.students.find(s => s.code.trim() === code.trim());
+                    if (student) {
+                        const subIndex = student.subjects.findIndex(s => s.name.trim() === subject.trim());
+                        if (subIndex > -1) {
+                            student.subjects[subIndex].marks = parseInt(marks);
+                            student.subjects[subIndex].grade = grade.trim();
+                        }
+                    }
+                }
+                showToast("Marks imported successfully from CSV!"); renderContent(); input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        // --- Modal & Form Logic ---
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalSaveBtn = document.getElementById('modalSaveBtn');
+
+        function closeModal() { modalOverlay.classList.remove('open'); }
+
+        // --- Student Logic ---
+        function openAddStudentModal() {
+            modalTitle.textContent = "Add New Student";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Full Name</label><input type="text" id="newStName"></div>
+                <div class="form-group"><label>Code (e.g., STU004)</label><input type="text" id="newStCode"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="newStEmail"></div>
+                <div class="form-group"><label>Level</label><input type="text" id="newStLevel"></div>
+                <div class="form-group"><label>Trade</label>
+                    <select id="newStTrade">
+                        ${appData.trades.map(t => `<option value="${t}">${t}</option>`).join('')}
+                    </select>
+                </div>
+                <!-- Add extra fields for richer profile -->
+                <div class="form-group"><label>Phone</label><input type="text" id="newStPhone" placeholder="+250 000 000 000"></div>
+                <div class="form-group"><label>Address</label><input type="text" id="newStAddress" placeholder="City, Country"></div>
+                <div class="form-group"><label>Guardian</label><input type="text" id="newStGuardian" placeholder="Parent Name"></div>
+            `;
+            modalSaveBtn.onclick = saveNewStudent;
+            modalOverlay.classList.add('open');
+        }
+
+        function saveNewStudent() {
+            const name = document.getElementById('newStName').value;
+            const code = document.getElementById('newStCode').value;
+            const email = document.getElementById('newStEmail').value;
+            const level = document.getElementById('newStLevel').value;
+            const trade = document.getElementById('newStTrade').value;
+            const phone = document.getElementById('newStPhone').value;
+            const address = document.getElementById('newStAddress').value;
+            const guardian = document.getElementById('newStGuardian').value;
+
+            if(!name || !code) { showToast("Name and Code are required", "error"); return; }
+
+            appData.students.push({ 
+                code, name, email, password: code, level, trade, 
+                phone, address, guardian,
+                subjects: [], attendance: 'Present' 
+            });
+            showToast("Student added successfully"); closeModal();
+            document.getElementById('adminStudentTableBody').innerHTML = getStudentRows(); renderContent(); 
+        }
+
+        function openEditStudent(code) {
+            const s = appData.students.find(student => student.code === code); if(!s) return;
+            modalTitle.textContent = "Edit Student";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Full Name</label><input type="text" id="editStName" value="${s.name}"></div>
+                <div class="form-group"><label>Code</label><input type="text" id="editStCode" value="${s.code}" disabled style="opacity:0.5"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="editStEmail" value="${s.email}"></div>
+                <div class="form-group"><label>Level</label><input type="text" id="editStLevel" value="${s.level}"></div>
+                <div class="form-group"><label>Trade</label><select id="editStTrade">${appData.trades.map(t => `<option value="${t}" ${t===s.trade?'selected':''}>${t}</option>`).join('')}</select></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="editStPhone" value="${s.phone || ''}"></div>
+                <div class="form-group"><label>Address</label><input type="text" id="editStAddress" value="${s.address || ''}"></div>
+                <div class="form-group"><label>Guardian</label><input type="text" id="editStGuardian" value="${s.guardian || ''}"></div>
+            `;
+            modalSaveBtn.onclick = () => saveEditStudent(code);
+            modalOverlay.classList.add('open');
+        }
+
+        function saveEditStudent(code) {
+            const s = appData.students.find(student => student.code === code);
+            if(s) {
+                s.name = document.getElementById('editStName').value;
+                s.email = document.getElementById('editStEmail').value;
+                s.level = document.getElementById('editStLevel').value;
+                s.trade = document.getElementById('editStTrade').value;
+                s.phone = document.getElementById('editStPhone').value;
+                s.address = document.getElementById('editStAddress').value;
+                s.guardian = document.getElementById('editStGuardian').value;
+                showToast("Student updated"); closeModal(); renderContent();
+            }
+        }
+
+        function deleteStudent(code) {
+            if(confirm('Are you sure you want to delete this student?')) {
+                appData.students = appData.students.filter(s => s.code !== code);
+                showToast("Student deleted"); renderContent();
+            }
+        }
+
+        // --- Teacher Logic ---
+        function openAddTeacherModal() {
+            modalTitle.textContent = "Add New Teacher";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Full Name</label><input type="text" id="newTName"></div>
+                <div class="form-group"><label>Subject</label><input type="text" id="newTSubject"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="newTEmail"></div>
+                <div class="form-group"><label>Default Password</label><input type="text" id="newTPass" value="admin123"></div>
+            `;
+            modalSaveBtn.onclick = saveNewTeacher;
+            modalOverlay.classList.add('open');
+        }
+
+        function saveNewTeacher() {
+            const name = document.getElementById('newTName').value;
+            const subject = document.getElementById('newTSubject').value;
+            const email = document.getElementById('newTEmail').value;
+            const pass = document.getElementById('newTPass').value;
+
+            if(!name || !email) { showToast("Name and Email are required", "error"); return; }
+
+            appData.teachers.push({ name, subject, email, password: pass, attendance: 'Present', performance: { weekly: 0, monthly: 0, yearly: 0 }, salary: 0, salaryDiff: 0 });
+            showToast("Teacher added successfully"); closeModal();
+            document.getElementById('adminTeacherTableBody').innerHTML = getTeacherRows(); renderContent();
+        }
+
+        function openEditTeacherDetails(email) {
+            const t = appData.teachers.find(teacher => teacher.email === email); if(!t) return;
+            modalTitle.textContent = "Edit Teacher Details";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Base Salary ($)</label><input type="number" id="editTSalary" value="${t.salary}"></div>
+                <div class="form-group"><label>Salary Bonus/Diff ($)</label><input type="number" id="editTSalaryDiff" value="${t.salaryDiff}"></div>
+                <hr style="margin:20px 0; border-color:rgba(255,255,255,0.1)">
+                <div class="form-group"><label>Performance Score (Weekly %)</label><input type="number" id="editTPerfW" value="${t.performance.weekly}"></div>
+                <div class="form-group"><label>Performance Score (Monthly %)</label><input type="number" id="editTPerfM" value="${t.performance.monthly}"></div>
+                <div class="form-group"><label>Performance Score (Yearly %)</label><input type="number" id="editTPerfY" value="${t.performance.yearly}"></div>
+            `;
+            modalSaveBtn.onclick = () => saveTeacherDetails(email);
+            modalOverlay.classList.add('open');
+        }
+
+        function saveTeacherDetails(email) {
+            const t = appData.teachers.find(teacher => teacher.email === email);
+            if(t) {
+                t.salary = parseInt(document.getElementById('editTSalary').value);
+                t.salaryDiff = parseInt(document.getElementById('editTSalaryDiff').value);
+                t.performance.weekly = document.getElementById('editTPerfW').value;
+                t.performance.monthly = document.getElementById('editTPerfM').value;
+                t.performance.yearly = document.getElementById('editTPerfY').value;
+                showToast("Teacher details updated"); closeModal(); renderContent();
+            }
+        }
+
+        function deleteTeacher(email) {
+            if(confirm('Are you sure you want to delete this teacher?')) {
+                appData.teachers = appData.teachers.filter(t => t.email !== email);
+                showToast("Teacher deleted"); renderContent();
+            }
+        }
+
+        // --- Marks Logic ---
+        function openAddSubjectToStudentModal() {
+            modalTitle.textContent = "Add Subject to Student";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Student Code</label><input type="text" id="newSubStCode" placeholder="e.g. STU001"></div>
+                <div class="form-group"><label>Subject Name</label><input type="text" id="newSubName"></div>
+                <div class="form-group"><label>Marks</label><input type="number" id="newSubMarks"></div>
+                <div class="form-group"><label>Grade</label><input type="text" id="newSubGrade"></div>
+            `;
+            modalSaveBtn.onclick = saveNewSubject;
+            modalOverlay.classList.add('open');
+        }
+
+        function saveNewSubject() {
+            const code = document.getElementById('newSubStCode').value;
+            const s = appData.students.find(student => student.code.trim() === code.trim());
+            if(s) {
+                const name = document.getElementById('newSubName').value;
+                const marks = document.getElementById('newSubMarks').value;
+                const grade = document.getElementById('newSubGrade').value;
+                if(name) {
+                    s.subjects.push({ name, marks, grade });
+                    showToast("Subject added to student"); closeModal(); renderContent();
+                }
+            } else { showToast("Student code not found", "error"); }
+        }
+
+        function openEditMark(studentCode, subjectName) {
+            const s = appData.students.find(student => student.code === studentCode);
+            if(!s) return;
+            const sub = s.subjects.find(sub => sub.name === subjectName);
+            if(!sub) return;
+            
+            modalTitle.textContent = "Edit Mark";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Subject</label><input type="text" id="editMarkSubName" value="${sub.name}"></div>
+                <div class="form-group"><label>Marks</label><input type="number" id="editMarkMarks" value="${sub.marks}"></div>
+                <div class="form-group"><label>Grade</label><input type="text" id="editMarkGrade" value="${sub.grade}"></div>
+            `;
+            modalSaveBtn.onclick = () => saveEditMark(studentCode, subjectName);
+            modalOverlay.classList.add('open');
+        }
+
+        function saveEditMark(studentCode, oldSubjectName) {
+            const s = appData.students.find(student => student.code === studentCode);
+            if(s) {
+                const sub = s.subjects.find(sub => sub.name === oldSubjectName);
+                if(sub) {
+                    sub.name = document.getElementById('editMarkSubName').value;
+                    sub.marks = document.getElementById('editMarkMarks').value;
+                    sub.grade = document.getElementById('editMarkGrade').value;
+                    showToast("Mark updated"); closeModal(); renderContent();
+                }
+            }
+        }
+
+        // --- Announcements Logic ---
+        function openAddAnnouncementModal() {
+            modalTitle.textContent = "Post Announcement";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Title</label><input type="text" id="newAnnTitle"></div>
+                <div class="form-group"><label>Content</label><input type="text" id="newAnnContent"></div>
+                <div class="form-group"><label>Date</label><input type="date" id="newAnnDate"></div>
+            `;
+            document.getElementById('newAnnDate').valueAsDate = new Date();
+            modalSaveBtn.onclick = saveNewAnnouncement;
+            modalOverlay.classList.add('open');
+        }
+
+        function saveNewAnnouncement() {
+            const title = document.getElementById('newAnnTitle').value;
+            const content = document.getElementById('newAnnContent').value;
+            const date = document.getElementById('newAnnDate').value;
+            if(!title || !content) { showToast("Title and content required", "error"); return; }
+            appData.announcements.unshift({ title, content, date });
+            showToast("Announcement posted"); closeModal(); renderContent();
+        }
+
+        function openEditAnnouncement(index) {
+            const a = appData.announcements[index];
+            modalTitle.textContent = "Edit Announcement";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Title</label><input type="text" id="editAnnTitle" value="${a.title}"></div>
+                <div class="form-group"><label>Content</label><input type="text" id="editAnnContent" value="${a.content}"></div>
+                <div class="form-group"><label>Date</label><input type="date" id="editAnnDate" value="${a.date}"></div>
+            `;
+            modalSaveBtn.onclick = () => {
+                a.title = document.getElementById('editAnnTitle').value;
+                a.content = document.getElementById('editAnnContent').value;
+                a.date = document.getElementById('editAnnDate').value;
+                showToast("Announcement updated"); closeModal(); renderContent();
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        function deleteAnnouncement(index) {
+            if(confirm('Delete this announcement?')) { appData.announcements.splice(index, 1); showToast("Announcement deleted"); renderContent(); }
+        }
+
+        // --- Schedule Logic ---
+        function openEditScheduleModal() {
+            modalTitle.textContent = "Edit Schedule";
+            modalBody.innerHTML = `<div class="form-group"><label>Schedule Text</label><input type="text" id="editScheduleText" value="${appData.schedule}"></div>`;
+            modalSaveBtn.onclick = () => {
+                appData.schedule = document.getElementById('editScheduleText').value;
+                showToast("Schedule updated"); closeModal(); renderContent();
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        // --- Events Logic ---
+        function openAddEventModal() {
+            modalTitle.textContent = "Add Event";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Event Name</label><input type="text" id="newEventName"></div>
+                <div class="form-group"><label>Date</label><input type="text" id="newEventDate" placeholder="e.g. 25 December"></div>
+            `;
+            modalSaveBtn.onclick = () => {
+                const name = document.getElementById('newEventName').value;
+                const date = document.getElementById('newEventDate').value;
+                if(name && date) { appData.events.push({ name, date }); showToast("Event added"); closeModal(); renderContent(); }
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        function openEditEvent(index) {
+            const e = appData.events[index];
+            modalTitle.textContent = "Edit Event";
+            modalBody.innerHTML = `
+                <div class="form-group"><label>Event Name</label><input type="text" id="editEventName" value="${e.name}"></div>
+                <div class="form-group"><label>Date</label><input type="text" id="editEventDate" value="${e.date}"></div>
+            `;
+            modalSaveBtn.onclick = () => {
+                e.name = document.getElementById('editEventName').value;
+                e.date = document.getElementById('editEventDate').value;
+                showToast("Event updated"); closeModal(); renderContent();
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        function deleteEvent(index) {
+            if(confirm('Delete this event?')) { appData.events.splice(index, 1); showToast("Event deleted"); renderContent(); }
+        }
+
+        // --- Rules Logic ---
+        function openAddRuleModal() {
+            modalTitle.textContent = "Add Rule";
+            modalBody.innerHTML = `<div class="form-group"><label>Rule Description</label><input type="text" id="newRuleText"></div>`;
+            modalSaveBtn.onclick = () => {
+                const text = document.getElementById('newRuleText').value;
+                if(text) { appData.rules.push(text); showToast("Rule added"); closeModal(); renderContent(); }
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        function openEditRule(index) {
+            const r = appData.rules[index];
+            modalTitle.textContent = "Edit Rule";
+            modalBody.innerHTML = `<div class="form-group"><label>Rule Description</label><input type="text" id="editRuleText" value="${r}"></div>`;
+            modalSaveBtn.onclick = () => {
+                appData.rules[index] = document.getElementById('editRuleText').value;
+                showToast("Rule updated"); closeModal(); renderContent();
+            };
+            modalOverlay.classList.add('open');
+        }
+
+        function deleteRule(index) {
+            if(confirm('Delete this rule?')) { appData.rules.splice(index, 1); showToast("Rule deleted"); renderContent(); }
+        }
+    </script>
 </body>
 </html>

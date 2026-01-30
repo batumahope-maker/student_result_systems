@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Report</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-report">
+
+  <!-- Sidebar Menu -->
+  <div id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">×</span>
+    <ul>
+      <li><a href="student-dashboard.html">Dashboard</a></li>
+      <li><a href="announcements.html">School Announcements</a></li>
+      <li><a href="best_performers.html">Best Performing Students</a></li>
+      <li><a href="schedules.html">School Schedules</a></li>
+      <li><a href="events.html">School Events</a></li>
+      <li><a href="teachers.html">School Teachers</a></li>
+      <li><a href="headmaster.html">Headmaster Contact</a></li>
+      <li><a href="trades.html">School Trades / Departments</a></li>
+      <li><a href="attendance_teachers.html">Teacher Attendance</a></li>
+      <li><a href="attendance_students.html">Student Attendance</a></li>
+      <li><a href="rules.html">School Rules</a></li>
+      <li><a href="student-report.html">My Report</a></li> <!-- only for students -->
+    </ul>
+  </div>
+
+  <!-- Hamburger Menu Icon -->
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+  <!-- Report Card -->
+  <div class="card" id="report"></div>
+
+  <!-- Logout & Print Buttons -->
+  <div class="logout-container">
+    <button onclick="logoutStudent()">Logout</button>
+    <button onclick="window.print()">🖨 Print Report</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script>
+    // Get student from localStorage
+    const s = JSON.parse(localStorage.getItem("student"));
+    if (!s) location.href = "index.html"; // redirect if not logged in
+
+    // Track that student viewed marks
+    if (typeof trackStudentView === "function") {
+      trackStudentView(s.StudentCode);
+    }
+
+    // Grade function
+    function grade(mark){
+      if(!mark && mark !== 0) return "-";
+      if(mark >= 80) return "A";
+      if(mark >= 70) return "B";
+      if(mark >= 60) return "C";
+      if(mark >= 50) return "D";
+      return "F";
+    }
+
+    // Display the student report
+    document.getElementById("report").innerHTML = `
+      <h2>Student Report Card</h2>
+      <p><b>Name:</b> ${s.Name}</p>
+      <p><b>Code:</b> ${s.StudentCode}</p>
+      <p><b>Class:</b> ${s.Class || "-"}</p>
+
+      <table>
+        <tr><th>Subject</th><th>Marks</th><th>Grade</th></tr>
+        <tr><td>Math</td><td>${s.Math || "-"}</td><td>${grade(s.Math)}</td></tr>
+        <tr><td>English</td><td>${s.English || "-"}</td><td>${grade(s.English)}</td></tr>
+        <tr><td>Science</td><td>${s.Science || "-"}</td><td>${grade(s.Science)}</td></tr>
+      </table>
+
+      <h3>Total: ${s.Total || "-"}</h3>
+    `;
+
+    // Logout function
+    function logoutStudent(){
+      localStorage.removeItem("student");
+      location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

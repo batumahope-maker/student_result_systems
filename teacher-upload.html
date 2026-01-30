@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Student Results</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-teacher">
+
+<div class="card">
+  <h2>Upload Excel File</h2>
+  <input type="file" id="excel" accept=".xlsx,.xls">
+  <button onclick="saveData()">Save Data</button>
+  <p id="msg"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+if(!localStorage.getItem("teacher")){
+  location.href = "teacher-login.html";
+}
+
+function saveData(){
+  const file = document.getElementById("excel").files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = new Uint8Array(e.target.result);
+    const wb = XLSX.read(data, {type:"array"});
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet);
+
+    localStorage.setItem("students", JSON.stringify(json));
+    document.getElementById("msg").innerText = "Data uploaded successfully ✔";
+  };
+  reader.readAsArrayBuffer(file);
+}
+<button onclick="logoutTeacher()">Logout</button>
+function logoutTeacher(){
+  localStorage.removeItem("teacher");
+  location.href = "teacher-login.html";
+}
+</script>
+</body>
+</html>

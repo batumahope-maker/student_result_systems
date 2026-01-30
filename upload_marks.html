@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Student Marks</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-teacher">
+    <!-- Sidebar Menu -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="toggleMenu()">×</span>
+  <ul>
+    <li><a href="student-dashboard.html">Dashboard</a></li>
+    <li><a href="announcements.html">School Announcements</a></li>
+    <li><a href="best_performers.html">Best Performing Students</a></li>
+    <li><a href="schedules.html">School Schedules</a></li>
+    <li><a href="events.html">School Events</a></li>
+    <li><a href="teachers.html">School Teachers</a></li>
+    <li><a href="headmaster.html">Headmaster Contact</a></li>
+    <li><a href="trades.html">School Trades / Departments</a></li>
+    <li><a href="attendance_teachers.html">Teacher Attendance</a></li>
+    <li><a href="attendance_students.html">Student Attendance</a></li>
+    <li><a href="rules.html">School Rules</a></li>
+    <li><a href="student-report.html">My Report</a></li> <!-- only for students -->
+  </ul>
+</div>
+
+<!-- Hamburger Menu Icon -->
+<div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+
+<div class="card">
+  <h2>Upload Student Marks</h2>
+  <input type="file" id="excelFile" accept=".xlsx,.xls">
+  <button onclick="uploadMarks()">Upload</button>
+  <p id="msg" style="color:green;"></p>
+
+  <h3>Student Views Tracking</h3>
+  <ul id="studentViews"></ul>
+
+  <button onclick="logoutTeacher()">Logout</button>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-teacher">
+
+<!-- Sidebar menu -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="toggleMenu()">×</span>
+  <ul>
+    <li><a href="upload_marks.html">Dashboard</a></li>
+    <li><a href="announcements.html">Announcements</a></li>
+    <li><a href="best_performers.html">Best Performing Students</a></li>
+    <li><a href="trades.html">Trades/Departments</a></li>
+    <li><a href="rules.html">School Rules</a></li>
+  </ul>
+</div>
+<div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+<!-- Main Content -->
+<div class="main-content page-content">
+  <h1 class="page-title">Teacher Portal</h1>
+
+  <div class="card">
+    <h2>Upload/Update Student Marks</h2>
+    <input type="file" id="excelFile" accept=".xlsx,.xls">
+    <button onclick="saveData()">Save Marks</button>
+    <p id="msg" style="color:green"></p>
+  </div>
+
+  <div class="card">
+    <h2>Add/Register New Student</h2>
+    <input type="text" id="newCode" placeholder="Student Code">
+    <input type="text" id="newName" placeholder="Student Full Name">
+    <input type="text" id="newClass" placeholder="Class">
+    <button onclick="addStudent()">Add Student</button>
+    <p id="addMsg" style="color:green"></p>
+  </div>
+
+  <div class="card">
+    <h2>Students Who Viewed Their Marks</h2>
+    <ul id="viewedStudents"></ul>
+  </div>
+
+  <button onclick="logoutTeacher()">Logout</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
